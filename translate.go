@@ -9,17 +9,21 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
 )
 
 func main() {
 	r := gin.Default()
-	r.POST("/translate", func(c *gin.Context) {
-
-	})
+	r.POST("/translate", ReverseProxy())
+	port := os.Getenv("HTTP_PORT")
+	if port == "" {
+		port = "8080"
+	}
+	r.Run("0.0.0.0:" + port)
 }
 
-const OPENAPI_KEY = ""
-const OPENAPI_MODEL = "gpt-3.5-turbo"
+var OPENAPI_KEY = os.Getenv("OPENAPI_KEY")
+var OPENAPI_MODEL = os.Getenv("OPENAPI_MODEL")
 
 type Data struct {
 	Content string `json:content`
@@ -79,7 +83,9 @@ func ReverseProxy() gin.HandlerFunc {
 				Content: content,
 			}
 			body.Messages = []Message{msg}
-			req.Body = NewRequestBody(body)
+			var length int
+			req.Body, length = NewRequestBody(body)
+			req.ContentLength = int64(length)
 		}
 		proxy := &httputil.ReverseProxy{
 			Director: director,
@@ -90,7 +96,7 @@ func ReverseProxy() gin.HandlerFunc {
 
 type Body io.ReadCloser
 
-func NewRequestBody(body any) Body {
+func NewRequestBody(body any) (Body, int) {
 	_bytes, _ := json.Marshal(body)
-	return io.NopCloser(bytes.NewBuffer(_bytes))
+	return io.NopCloser(bytes.NewBuffer(_bytes)), len(_bytes)
 }
