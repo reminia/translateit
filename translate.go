@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
@@ -71,6 +72,13 @@ func ReverseProxy() gin.HandlerFunc {
 				Model:       OPENAPI_MODEL,
 				Temperature: 0,
 			}
+			content := fmt.Sprintf("please translate below passage to %s: %s",
+				data.Lang, data.Content)
+			msg := Message{
+				Role:    "user",
+				Content: content,
+			}
+			body.Messages = []Message{msg}
 			req.Body = NewRequestBody(body)
 		}
 		proxy := &httputil.ReverseProxy{
