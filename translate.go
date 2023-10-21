@@ -22,8 +22,8 @@ func main() {
 	r.Run("0.0.0.0:" + port)
 }
 
-var OPENAPI_KEY = os.Getenv("OPENAPI_KEY")
-var OPENAPI_MODEL = os.Getenv("OPENAPI_MODEL")
+var OPENAI_KEY = os.Getenv("OPENAI_KEY")
+var OPENAI_MODEL = os.Getenv("OPENAI_MODEL")
 
 type Data struct {
 	Content string `json:content`
@@ -36,7 +36,7 @@ func (d *Data) setDefault() {
 		d.Lang = "English"
 	}
 	if d.Model == "" {
-		d.Model = OPENAPI_MODEL
+		d.Model = OPENAI_MODEL
 	}
 
 }
@@ -53,6 +53,11 @@ type Message struct {
 	Content string `json:content`
 }
 
+var SYSTEM_MSG = Message{
+	Role:    "system",
+	Content: "",
+}
+
 func ReverseProxy() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		openapi := "https://api.openai.com/v1/chat/completions"
@@ -63,7 +68,7 @@ func ReverseProxy() gin.HandlerFunc {
 			}
 			req.URL = _url
 			req.Host = ""
-			req.Header.Set("Authorization", "Bearer "+OPENAPI_KEY)
+			req.Header.Set("Authorization", "Bearer "+OPENAI_KEY)
 			req.Header.Set("Content-Type", "application/json")
 			var data Data
 			err = c.ShouldBindJSON(&data)
@@ -73,7 +78,7 @@ func ReverseProxy() gin.HandlerFunc {
 			data.setDefault()
 
 			body := OpenApiRequest{
-				Model:       OPENAPI_MODEL,
+				Model:       OPENAI_MODEL,
 				Temperature: 0,
 			}
 			content := fmt.Sprintf("please translate below passage to %s: %s",
@@ -82,7 +87,7 @@ func ReverseProxy() gin.HandlerFunc {
 				Role:    "user",
 				Content: content,
 			}
-			body.Messages = []Message{msg}
+			body.Messages = []Message{SYSTEM_MSG, msg}
 			var length int
 			req.Body, length = NewRequestBody(body)
 			req.ContentLength = int64(length)
