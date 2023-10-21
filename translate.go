@@ -16,7 +16,7 @@ import (
 func main() {
 	r := gin.Default()
 	r.POST("/translate", OpenAiProxy(handleOpenAiResponse))
-	r.POST("/translate/identity", OpenAiProxy(identityResponseHandler))
+	r.POST("/translate/openai", OpenAiProxy(identityResponseHandler))
 	r.GET("/health", func(c *gin.Context) {
 		c.String(http.StatusOK, "I am up!")
 	})
