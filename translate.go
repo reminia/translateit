@@ -53,9 +53,11 @@ type Message struct {
 	Content string `json:content`
 }
 
-var SYSTEM_MSG = Message{
-	Role:    "system",
-	Content: "",
+func systemMsg(lang string) Message {
+	return Message{
+		Role:    "system",
+		Content: "You are a professional translator that can translate any language to " + lang,
+	}
 }
 
 func ReverseProxy() gin.HandlerFunc {
@@ -87,7 +89,7 @@ func ReverseProxy() gin.HandlerFunc {
 				Role:    "user",
 				Content: content,
 			}
-			body.Messages = []Message{SYSTEM_MSG, msg}
+			body.Messages = []Message{systemMsg(data.Lang), msg}
 			var length int
 			req.Body, length = NewRequestBody(body)
 			req.ContentLength = int64(length)
