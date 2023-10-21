@@ -1,5 +1,6 @@
-A simple translate api that proxies to openai written by Golang.
+# translateit ![ci](https://github.com/reminia/translateit/actions/workflows/go-build.yml/badge.svg)
 
+A simple translate api that proxies to openai written by Golang.
 ## Run
 
 1. Setup environment variables:
