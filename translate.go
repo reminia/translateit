@@ -14,7 +14,7 @@ import (
 
 func main() {
 	r := gin.Default()
-	r.POST("/translate", ReverseProxy())
+	r.POST("/translate", OpenAiProxy())
 	port := os.Getenv("HTTP_PORT")
 	if port == "" {
 		port = "8080"
@@ -60,7 +60,7 @@ func systemMsg(lang string) Message {
 	}
 }
 
-func ReverseProxy() gin.HandlerFunc {
+func OpenAiProxy() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		openapi := "https://api.openai.com/v1/chat/completions"
 		director := func(req *http.Request) {
