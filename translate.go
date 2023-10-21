@@ -26,9 +26,9 @@ var OPENAI_KEY = os.Getenv("OPENAI_KEY")
 var OPENAI_MODEL = os.Getenv("OPENAI_MODEL")
 
 type Data struct {
-	Content string `json:content`
-	Lang    string `json:lang,omitempty` //default to English
-	Model   string `json:lang,omitempty` //default to gpt-3.5-turbo
+	Content string `json:"content"`
+	Lang    string `json:"lang,omitempty"`  //default to English
+	Model   string `json:"model,omitempty"` //default to gpt-3.5-turbo
 }
 
 func (d *Data) setDefault() {
@@ -42,21 +42,21 @@ func (d *Data) setDefault() {
 }
 
 type OpenApiRequest struct {
-	Model       string    `json:model`
-	Messages    []Message `json:messages`
-	Temperature uint      `json:temperature`
-	MaxTokens   uint      `json:max_tokens,omitempty`
+	Model       string    `json:"model"`
+	Messages    []Message `json:"messages"`
+	Temperature uint      `json:"temperature"`
+	MaxTokens   uint      `json:"max_tokens,omitempty"`
 }
 
 type Message struct {
-	Role    string `json:role`
-	Content string `json:content`
+	Role    string `json:"role"`
+	Content string `json:"content"`
 }
 
 func systemMsg(lang string) Message {
 	return Message{
 		Role:    "system",
-		Content: "You are a professional translator that can translate any language to " + lang,
+		Content: "You will be given a passage, and you task is to translate them to " + lang,
 	}
 }
 
@@ -83,11 +83,9 @@ func OpenAiProxy() gin.HandlerFunc {
 				Model:       OPENAI_MODEL,
 				Temperature: 0,
 			}
-			content := fmt.Sprintf("please translate below passage to %s: %s",
-				data.Lang, data.Content)
 			msg := Message{
 				Role:    "user",
-				Content: content,
+				Content: data.Content,
 			}
 			body.Messages = []Message{systemMsg(data.Lang), msg}
 			var length int
@@ -106,4 +104,10 @@ type Body io.ReadCloser
 func NewRequestBody(body any) (Body, int) {
 	_bytes, _ := json.Marshal(body)
 	return io.NopCloser(bytes.NewBuffer(_bytes)), len(_bytes)
+}
+
+// DumpRequest dump http.Request to debug
+func DumpRequest(req *http.Request) {
+	dump, _ := httputil.DumpRequest(req, true)
+	fmt.Println("body", string(dump))
 }
