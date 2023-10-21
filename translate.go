@@ -54,6 +54,9 @@ func (d *Ask) setDefault() {
 	}
 	if d.Model == "" {
 		d.Model = OPENAI_MODEL
+		if d.Model == "" {
+			d.Model = "gpt-3.5-turbo"
+		}
 	}
 
 }
