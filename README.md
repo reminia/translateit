@@ -1,6 +1,7 @@
 # translateit ![ci](https://github.com/reminia/translateit/actions/workflows/go-build.yml/badge.svg)
 
 A simple translate api that proxies to openai written by Golang.
+
 ## Run
 
 1. Setup environment variables:
@@ -18,13 +19,14 @@ There are 3 endpoints for now:
 1. POST /translate, translate the content and return the simplified response with reply and reason only.
    Ask is the request and Answer is the response.
    ```golang
+   // Ask the request of /translate
    type Ask struct {
    	Content string `json:"content"`
    	Lang    string `json:"lang,omitempty"`  //optional, default to English
    	Model   string `json:"model,omitempty"` //optional, default to gpt-3.5-turbo
    }
 
-   // Answer the reply of api
+   // Answer the response of Ask
    type Answer struct {
    	Reply  string `json:"reply"`
    	Reason string `json:"reason"`

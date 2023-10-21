@@ -32,14 +32,14 @@ var OPENAI_KEY = os.Getenv("OPENAI_KEY")
 var OPENAI_MODEL = os.Getenv("OPENAI_MODEL")
 var OPENAI_TEMPERATURE uint = 1
 
-// Ask the request of api
+// Ask the request of /translate
 type Ask struct {
 	Content string `json:"content"`
 	Lang    string `json:"lang,omitempty"`  //optional, default to English
 	Model   string `json:"model,omitempty"` //optional, default to gpt-3.5-turbo
 }
 
-// Answer the reply of api
+// Answer the reply of Ask
 type Answer struct {
 	Reply  string `json:"reply"`
 	Reason string `json:"reason"`
