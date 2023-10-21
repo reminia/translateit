@@ -25,7 +25,10 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	r.Run("0.0.0.0:" + port)
+	err := r.Run("0.0.0.0:" + port)
+	if err != nil {
+		log.Fatal("server start failed with error", err)
+	}
 }
 
 var OPENAI_KEY = os.Getenv("OPENAI_KEY")
@@ -111,7 +114,7 @@ func handleOpenAiResponse(c *gin.Context) ResponseCallBack {
 	}
 }
 
-func identityResponseHandler(c *gin.Context) ResponseCallBack {
+func identityResponseHandler(_ *gin.Context) ResponseCallBack {
 	return func(resp *http.Response) error {
 		return nil
 	}
