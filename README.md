@@ -10,7 +10,9 @@ A simple translate api that proxies to openai written by Golang.
 * OPENAI_MODEL, model of openai, optional, default to gpt-3.5-turbo.
 * HTTP_PORT, port of the server, optional, default to 8080.
 
-2. Start with `go run .`
+2. Build by `make build`.
+3. Start server by `./translate`.
+4. Use translate-cli by `./translate -c "content" -l Chinese -m "gpt3-3.5-turbo"`, -l and -m is optional.
 
 ## Endpoints
 
