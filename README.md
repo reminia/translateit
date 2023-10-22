@@ -12,7 +12,7 @@ A simple translate api that proxies to openai written by Golang.
 
 2. Build by `make build`.
 3. Start server by `./translate`.
-4. Use translate-cli by `./translate -c "content" -l Chinese -m "gpt3-3.5-turbo"`, -l and -m is optional.
+4. Use translate-cli by `./translate -c "content" -l Chinese -m "gpt3-3.5-turbo"`, -l and -m are optional.
 
 ## Endpoints
 
