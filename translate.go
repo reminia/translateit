@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"compress/gzip"
 	"encoding/json"
 	"github.com/andybalholm/brotli"
 	"github.com/gin-gonic/gin"
@@ -60,6 +61,8 @@ func parseOpenAiResponse(resp *http.Response) (OpenAiResponse, error) {
 	case "br":
 		brReader := brotli.NewReader(resp.Body)
 		reader = brReader
+	case "gzip":
+		reader, _ = gzip.NewReader(resp.Body)
 	default:
 		// Handle other encodings or no encoding here, if needed.
 		reader = resp.Body
@@ -115,9 +118,4 @@ type Body io.ReadCloser
 func newRequestBody(body any) (Body, int) {
 	_bytes, _ := json.Marshal(body)
 	return io.NopCloser(bytes.NewBuffer(_bytes)), len(_bytes)
-}
-
-func debug(desc string, reader io.Reader) {
-	_bytes, _ := io.ReadAll(reader)
-	log.Println("debug", desc, string(_bytes))
 }

@@ -1,3 +1,6 @@
 .DS_Store
-translate-it*
 .idea/
+
+#ignore binary
+translate
+translate-cli
