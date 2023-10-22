@@ -1,4 +1,4 @@
-module translate-it
+module github.com/reminia/translateit
 
 go 1.19
 
