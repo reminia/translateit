@@ -24,6 +24,5 @@ jobs:
 
         - name: build and publish image
           run: |
-            docker build -t translateit .
-            docker push translateit
-
+            docker build -t ghcr.io/reminia/translateit .
+            docker push ghcr.io/reminia/translateit
