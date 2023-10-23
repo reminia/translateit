@@ -37,3 +37,9 @@ There are 3 endpoints for now:
 2. POST /translate/openai, translate the content and return the original openai response for debugging purpose.
    The request is still Ask. The response is what described in the [openai doc](https://platform.openai.com/docs/api-reference/completions).
 3. GET /health, a server healthy check api.
+
+## Docker
+
+* build: `docker build -t translate .`
+* setup OPENAI_KEY, OPENAI_MODEL in an env file
+* start: `doccker run --env-file env -p 8081:8080 -d translate`
