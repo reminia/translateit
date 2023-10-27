@@ -12,7 +12,7 @@ A simple translate api that proxies to openai written by Golang.
 
 2. Build by `make build`.
 3. Start server by `./translate`.
-4. Use translate-cli by `./translate -c "content" -l Chinese -m "gpt-3.5-turbo"`, -l and -m are optional.
+4. Use translate-cli by `./translate-cli -c "content" -l Chinese -m "gpt-3.5-turbo"`, -l and -m are optional.
 
 ## Endpoints
 
@@ -40,6 +40,8 @@ There are 3 endpoints for now:
 
 ## Docker
 
+Use the [image](https://github.com/reminia/translateit/pkgs/container/translateit) build by github action or build the image yourself.
+
 * build: `docker build -t translate .`
 * setup OPENAI_KEY, OPENAI_MODEL in an env file
-* start: `doccker run --env-file env -p 8081:8080 -d translate`
+* start: `docker run --env-file env -p 8081:8080 -d translate`
