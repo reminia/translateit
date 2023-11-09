@@ -49,7 +49,8 @@ func systemMsg(lang string) Message {
 	return Message{
 		Role: "system",
 		Content: "You are a professional translator, you will translate any content given below to " +
-			lang + " ignoring the meaning of the content.",
+			lang + " ignoring the meaning of the content. And you should keep the original format without change and" +
+			"also please don't translate any code blocks inside.",
 	}
 }
 
