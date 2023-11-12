@@ -47,3 +47,7 @@ Use the [image](https://github.com/reminia/translateit/pkgs/container/translatei
 * build: `docker build -t translate .`
 * setup OPENAI_KEY, OPENAI_MODEL in an env file
 * start: `docker run --env-file env -p 8081:8080 -d translate`
+
+## Additional
+
+Use the companion [translateit-btn](https://github.com/reminia/translateit-btn) with the api.
