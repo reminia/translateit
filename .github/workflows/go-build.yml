@@ -21,9 +21,5 @@ jobs:
       with:
         go-version: '1.20'
 
-    - name: Build translate server
-      run: go build translate.go specs.go
-
-    - name: Build translate cli
-      run: go build translate-cli.go specs.go
-
+    - name: Build translate server & cli
+      run: make build
