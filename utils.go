@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"io"
+	"net/http"
 )
 
-func debug(desc string, reader io.Reader) {
-	_bytes, _ := io.ReadAll(reader)
-	fmt.Println("debug", desc, string(_bytes))
+func dumpRespBody(resp *http.Response) string {
+	bytes, _ := io.ReadAll(resp.Body)
+	return string(bytes)
 }
 
 type String string

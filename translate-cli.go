@@ -44,7 +44,11 @@ func translate(ask Ask) Answer {
 	defer resp.Body.Close()
 
 	var ans Answer
-	json.NewDecoder(resp.Body).Decode(&ans)
+	if !original {
+		json.NewDecoder(resp.Body).Decode(&ans)
+	} else {
+		ans.Reply = dumpRespBody(resp)
+	}
 	return ans
 }
 
