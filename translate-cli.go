@@ -13,6 +13,8 @@ var endpoint = String(os.Getenv("TRANSLATE_ENDPOINT")).
 	orElse("http://localhost:8080/translate").
 	get()
 
+var original = false
+
 func parseFlags() Ask {
 	var (
 		content string
@@ -22,6 +24,7 @@ func parseFlags() Ask {
 	flag.StringVar(&content, "c", "", "The content to be translated")
 	flag.StringVar(&lang, "l", "English", "The language to be translated")
 	flag.StringVar(&model, "m", "gpt-3.5-turbo", "The chatGPT model to be chose")
+	flag.BoolVar(&original, "o", false, "Set to get original OpenAI response")
 	flag.Parse()
 
 	payload := Ask{
@@ -34,6 +37,10 @@ func parseFlags() Ask {
 
 func translate(ask Ask) Answer {
 	_bytes, _ := json.Marshal(ask)
+	fmt.Println("original", original)
+	if original {
+		endpoint = "http://localhost:8080/translate/openai"
+	}
 	resp, _ := http.Post(endpoint, "application/json", bytes.NewBuffer(_bytes))
 	defer resp.Body.Close()
 
