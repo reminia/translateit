@@ -37,7 +37,6 @@ func parseFlags() Ask {
 
 func translate(ask Ask) Answer {
 	_bytes, _ := json.Marshal(ask)
-	fmt.Println("original", original)
 	if original {
 		endpoint = "http://localhost:8080/translate/openai"
 	}
