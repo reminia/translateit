@@ -99,21 +99,21 @@ func OpenAiProxy(callback func(c *gin.Context) ResponseCallBack) gin.HandlerFunc
 			req.Host = ""
 			req.Header.Set("Authorization", "Bearer "+OPENAI_KEY)
 			req.Header.Set("Content-Type", "application/json")
-			var data Ask
-			err = c.ShouldBindJSON(&data)
+			var ask Ask
+			err = c.ShouldBindJSON(&ask)
 			if err != nil {
 				panic(err)
 			}
-			data.setDefault()
+			ask.setDefault()
 			body := OpenAiRequest{
-				Model:       OPENAI_MODEL,
+				Model:       ask.Model,
 				Temperature: OPENAI_TEMPERATURE,
 			}
 			msg := Message{
 				Role:    "user",
-				Content: data.Content,
+				Content: ask.Content,
 			}
-			body.Messages = []Message{systemMsg(data.Lang), msg}
+			body.Messages = []Message{systemMsg(ask.Lang), msg}
 			var length int
 			req.Body, length = newRequestBody(body)
 			req.ContentLength = int64(length)
