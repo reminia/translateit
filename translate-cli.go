@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var endpoint string = os.Getenv("TRANSLATE_ENDPOINT")
+var endpoint = os.Getenv("TRANSLATE_ENDPOINT")
 
 func parseFlags() Ask {
 	var (

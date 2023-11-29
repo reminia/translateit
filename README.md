@@ -11,10 +11,15 @@ A simple translate api that proxies to openai written by Golang.
 * HTTP_PORT, port of the server, optional, default to 8080.
 
 2. Build by `make build`.
-3. Start server by `./translate`.
-4. Use translate-cli by `./translate-cli -c "content" -l Chinese -m "gpt-3.5-turbo"`, -l and -m are optional.
-   translate-cli is an accompany of the server. It requires to setup TRANSLATE_ENDPOINT env var.
-   If not set, the endpoint is default to http://localhost:8080.
+3. Start server by `./translate`. Try it with:
+  ```bash
+  curl -X POST \
+  -d '{"content": "Hi, how are you?", "lang": "Chinese", "model": "gpt-3"}' \
+  http://localhost:8080/translate
+  ```
+4. translate-cli is a way to test translate endpoints. Start translate server first before using the cli tool.
+   Use it like `./translate-cli -c "content" -l "Chinese" -m "gpt-3.5-turbo"`, -l and -m are optional.
+   It requires to set TRANSLATE_ENDPOINT env var, it is http://localhost:8080 by default.
 
 ## Endpoints
 
