@@ -19,7 +19,7 @@ func main() {
 	r.Use(CORS)
 	r.POST("/translate", OpenAiProxy(handleOpenAiResponse))
 	r.POST("/translate/openai", OpenAiProxy(identityResponseHandler))
-	r.GET("/health", func(c *gin.Context) {
+	r.GET("/translate/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "I am up!")
 	})
 

@@ -43,7 +43,7 @@ There are 3 endpoints for now:
    ```
 2. POST /translate/openai, translate the content and return the original openai response for debugging purpose.
    The request is still Ask. The response is what described in the [openai doc](https://platform.openai.com/docs/api-reference/completions).
-3. GET /health, a server healthy check api.
+3. GET /translate/ping, a server healthy check api.
 
 ## Docker
 
