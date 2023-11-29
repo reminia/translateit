@@ -6,7 +6,10 @@ WORKDIR /opt/translateit
 COPY *.go  .
 COPY *.mod  .
 COPY *.sum  .
-RUN go build translate.go specs.go
+COPY Makefile .
+RUN apk add make
+RUN make build
+
 EXPOSE 8080
 
 CMD ["./translate"]
