@@ -58,7 +58,7 @@ func handleOpenAiResponse(c *gin.Context) ResponseCallBack {
 		} else {
 			log.Println("Response " + response.Status)
 			dump, _ := httputil.DumpResponse(response, true)
-			log.Println("%s", dump)
+			log.Println("%s", string(dump))
 			return nil
 		}
 	}
