@@ -9,7 +9,9 @@ import (
 	"os"
 )
 
-var endpoint = os.Getenv("TRANSLATE_ENDPOINT")
+var endpoint = String(os.Getenv("TRANSLATE_ENDPOINT")).
+	orElse("http://localhost:8080/translate").
+	get()
 
 func parseFlags() Ask {
 	var (
@@ -22,9 +24,6 @@ func parseFlags() Ask {
 	flag.StringVar(&model, "m", "gpt-3.5-turbo", "The chatGPT model to be chose")
 	flag.Parse()
 
-	if endpoint == "" {
-		endpoint = "http://localhost:8080/translate"
-	}
 	payload := Ask{
 		content,
 		lang,

@@ -54,18 +54,14 @@ func systemMsg(lang string) Message {
 	}
 }
 
-var OPENAI_KEY = os.Getenv("OPENAI_KEY")
-var OPENAI_MODEL = os.Getenv("OPENAI_MODEL")
-var OPENAI_TEMPERATURE uint = 1
+var OpenaiKey = os.Getenv("OPENAI_KEY")
+var OpenaiModel = os.Getenv("OPENAI_MODEL")
+var OpenaiTemperature uint = 1
 
 func (d *Ask) setDefault() {
-	if d.Lang == "" {
-		d.Lang = "English"
-	}
-	if d.Model == "" {
-		d.Model = OPENAI_MODEL
-		if d.Model == "" {
-			d.Model = "gpt-3.5-turbo"
-		}
-	}
+	d.Lang = String(d.Lang).orElse("English").get()
+	d.Model = String(d.Model).
+		orElse(OpenaiModel).
+		orElse("gpt-3.5-turbo").
+		get()
 }

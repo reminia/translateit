@@ -23,10 +23,7 @@ func main() {
 		c.String(http.StatusOK, "I am up!")
 	})
 
-	port := os.Getenv("HTTP_PORT")
-	if port == "" {
-		port = "8080"
-	}
+	port := String(os.Getenv("HTTP_PORT")).orElse("8080").get()
 	err := r.Run("0.0.0.0:" + port)
 	if err != nil {
 		log.Fatal("server start failed with error", err)
@@ -34,7 +31,8 @@ func main() {
 }
 
 func CORS(c *gin.Context) {
-	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	origin := String(os.Getenv("ALLOW_ORIGIN")).orElse("*")
+	c.Writer.Header().Set("Access-Control-Allow-Origin", origin.get())
 	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
@@ -101,7 +99,7 @@ func OpenAiProxy(callback func(c *gin.Context) ResponseCallBack) gin.HandlerFunc
 			}
 			req.URL = _url
 			req.Host = ""
-			req.Header.Set("Authorization", "Bearer "+OPENAI_KEY)
+			req.Header.Set("Authorization", "Bearer "+OpenaiKey)
 			req.Header.Set("Content-Type", "application/json")
 			var ask Ask
 			err = c.ShouldBindJSON(&ask)
@@ -111,7 +109,7 @@ func OpenAiProxy(callback func(c *gin.Context) ResponseCallBack) gin.HandlerFunc
 			ask.setDefault()
 			body := OpenAiRequest{
 				Model:       ask.Model,
-				Temperature: OPENAI_TEMPERATURE,
+				Temperature: OpenaiTemperature,
 			}
 			msg := Message{
 				Role:    "user",
