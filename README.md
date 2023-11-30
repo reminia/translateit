@@ -23,7 +23,7 @@ http://localhost:8080/translate
    Try it like `./translate-cli -c "content" -l "Chinese" -m "gpt-3.5-turbo"`, -l and -m are optional.
    The endpoint is http://localhost:8080 by default, customize it by setting TRANSLATE_ENDPOINT env var.
 
-CORS is enabled by default, set up ORIGIN env var to control the origin otherwise all is allowed.
+CORS is enabled by default, set up ALLOW_ORIGIN env var to control the origin otherwise all is allowed.
 ## Endpoints
 
 There are 3 endpoints for now:
