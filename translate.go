@@ -31,11 +31,18 @@ func main() {
 }
 
 func CORS(c *gin.Context) {
-	origin := String(os.Getenv("ALLOW_ORIGIN")).orElse("*")
-	c.Writer.Header().Set("Access-Control-Allow-Origin", origin.get())
-	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+	origin := os.Getenv("ALLOW_ORIGIN")
+	originalHeader := c.GetHeader("Origin")
+	if origin == "" {
+		originalHeader = "*"
+	} else if originalHeader != origin {
+		c.AbortWithStatus(http.StatusForbidden)
+		return
+	}
+	c.Header("Access-Control-Allow-Origin", originalHeader)
+	c.Header("Access-Control-Allow-Credentials", "true")
+	c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	c.Header("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
 	if c.Request.Method == "OPTIONS" {
 		c.AbortWithStatus(204)
 		return
