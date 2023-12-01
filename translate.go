@@ -31,11 +31,11 @@ func main() {
 }
 
 func CORS(c *gin.Context) {
-	origin := os.Getenv("ALLOW_ORIGIN")
+	origin := os.Getenv("ALLOW_ORIGINS")
 	originalHeader := c.GetHeader("Origin")
 	if origin == "" {
 		originalHeader = "*"
-	} else if originalHeader != origin {
+	} else if !String(origin).contains(",", originalHeader) {
 		c.AbortWithStatus(http.StatusForbidden)
 		return
 	}
