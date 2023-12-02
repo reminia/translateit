@@ -15,6 +15,8 @@ import (
 )
 
 func main() {
+	log.SetPrefix("[translate-debug] ")
+
 	r := gin.Default()
 	r.Use(CORS)
 	r.POST("/translate", OpenAiProxy(handleOpenAiResponse))
@@ -32,10 +34,12 @@ func main() {
 
 func CORS(c *gin.Context) {
 	origin := os.Getenv("ALLOW_ORIGINS")
+	debug("ALLOW_ORIGINS", origin)
 	originalHeader := c.GetHeader("Origin")
 	if origin == "" {
 		originalHeader = "*"
 	} else if !String(origin).contains(",", originalHeader) {
+		debug("Request origin", originalHeader)
 		c.AbortWithStatus(http.StatusForbidden)
 		return
 	}
@@ -63,9 +67,9 @@ func handleOpenAiResponse(c *gin.Context) ResponseCallBack {
 			c.JSON(http.StatusOK, ans)
 			return err
 		} else {
-			log.Println("Response " + response.Status)
+			debug("Response:", response.Status)
 			dump, _ := httputil.DumpResponse(response, true)
-			log.Println("%s", string(dump))
+			debug(string(dump))
 			return nil
 		}
 	}
